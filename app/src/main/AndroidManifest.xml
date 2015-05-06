@@ -24,14 +24,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.ryan.quizdroid.MainActivity" />
         </activity>
-        <activity
+        <!--<activity
             android:name=".QuestionPage"
             android:label="@string/title_activity_question_page" >
         </activity>
         <activity
             android:name=".Results"
             android:label="@string/title_activity_results" >
-        </activity>
+        </activity>-->
     </application>
 
 </manifest>

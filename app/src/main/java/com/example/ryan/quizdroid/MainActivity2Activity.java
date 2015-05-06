@@ -1,48 +1,41 @@
 package com.example.ryan.quizdroid;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class MainActivity2Activity extends Activity implements View.OnClickListener {
+public class MainActivity2Activity extends Activity {
 
     private static final Map<String, String> descriptions = new HashMap<String, String>();
     private String topic = "";
     public int correct = 0;
+    private Question[] questionQueue = new Question[2];
+    public String selected = "";
+    public int attempted = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_activity2);
-        String topic = getIntent().getStringExtra("topic");
-        fill_descriptions();
-        TextView quesTotal = (TextView) findViewById(R.id.textView3);
-        quesTotal.setText("There are 2 questions in this topic");
-        String desc = descriptions.get(topic);
-        TextView view = (TextView) findViewById(R.id.textView);
-        view.setText(desc);
-        this.topic = topic;
-        Button go = (Button) findViewById(R.id.button4);
-        go.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        Intent intent = new Intent(MainActivity2Activity.this, QuestionPage.class);
-        Bundle extras = getIntent().getExtras();
+        Intent intent = getIntent();
+        this.topic = intent.getStringExtra("topic");
+        Bundle extras = new Bundle();
         extras.putString("topic", topic);
         extras.putInt("correct", correct);
-        intent.putExtras(extras);
-        startActivity(intent);
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        DescriptionFrag fragment2 = new DescriptionFrag();
+        fragment2.setArguments(extras);
+        fragmentTransaction.replace(R.id.container, fragment2);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -67,9 +60,52 @@ public class MainActivity2Activity extends Activity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
-    public void fill_descriptions() {
-        descriptions.put("Math", "Mathematics, often shortened to maths or math, is the study of topics such as quantity, structure, space, and change. There is a range of views among mathematicians and philosophers as to the exact scope and definition of mathematics.");
-        descriptions.put("Physics", "the branch of science concerned with the nature and properties of matter and energy. The subject matter of physics, distinguished from that of chemistry and biology, includes mechanics, heat, light and other radiation, sound, electricity, magnetism, and the structure of atoms.");
-        descriptions.put("Marvel Super Heroes", "The Marvel Super Heroes[1] is an American / Canadian animated television series starring five comic-book superheroes from Marvel Comics. The first TV series based on Marvel characters, it debuted in syndication on U.S. television in 1966.");
+    public void loadFragment2() {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        if (attempted == 2) {
+            Intent intent = new Intent(MainActivity2Activity.this, MainActivity.class);
+            startActivity(intent);
+        } else {
+            Bundle extras = new Bundle();
+            extras.putInt("attempted", attempted);
+            extras.putString("topic", topic);
+            extras.putInt("correct", correct);
+            DescriptionFrag fragment2 = new DescriptionFrag();
+            fragment2.setArguments(extras);
+            ft.replace(R.id.container, fragment2);
+        }
+        ft.commit();
     }
+
+    public void loadFragment3() {
+        Bundle extras = new Bundle();
+        extras.putString("topic", topic);
+        extras.putInt("correct", correct);
+        extras.putInt("attempted", attempted);
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        QuestionFrag fragment3 = new QuestionFrag();
+        fragment3.setArguments(extras);
+        ft.replace(R.id.container, fragment3);   // where , what
+        ft.commit();
+    }
+
+    public void loadFragment4() {
+        Bundle extras = new Bundle();
+        extras.putString("chosen", selected);
+        extras.putString("answer", questionQueue[attempted].answer);
+        extras.putInt("attempted", attempted);
+        extras.putString("topic", topic);
+        extras.putInt("correct", correct);
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ResultsFrag fragment4 = new ResultsFrag();
+        fragment4.setArguments(extras);
+        ft.replace(R.id.container, fragment4);   // where , what
+        ft.commit();
+    }
+
 }

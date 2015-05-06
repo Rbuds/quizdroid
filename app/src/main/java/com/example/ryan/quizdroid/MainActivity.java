@@ -19,9 +19,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(this);
         Button button2 = (Button) findViewById(R.id.button2);
-        button.setOnClickListener(this);
+        button2.setOnClickListener(this);
         Button button3 = (Button) findViewById(R.id.button3);
-        button.setOnClickListener(this);
+        button3.setOnClickListener(this);
     }
 
     @Override
