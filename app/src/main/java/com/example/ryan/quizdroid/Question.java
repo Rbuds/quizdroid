@@ -8,9 +8,9 @@ import java.util.Random;
 public class Question {
 
     public String question;
-    private String possible1;
-    private String possible2;
-    private String possible3;
+    public String possible1;
+    public String possible2;
+    public String possible3;
     public String answer;
     public int correct;
     public String[] answers = new String[4];

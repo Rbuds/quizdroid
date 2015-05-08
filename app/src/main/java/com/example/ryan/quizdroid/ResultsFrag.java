@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +28,11 @@ public class ResultsFrag extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            topic = getArguments().getString("topic");
-            correct = getArguments().getInt("correct");
-            chosen = getArguments().getString("chosen");
-            answer = getArguments().getString("answer");
-            attempted = getArguments().getInt("attempted", attempted);
+            this.topic = getArguments().getString("topic");
+            this.correct = getArguments().getInt("correct");
+            this.chosen = getArguments().getString("chosen");
+            this.answer = getArguments().getString("answer");
+            this.attempted = getArguments().getInt("attempted");
         }
     }
 
@@ -45,6 +46,8 @@ public class ResultsFrag extends Fragment implements View.OnClickListener {
         guessed.setText("You chose: " + chosen);
         TextView answerText = (TextView) fragView.findViewById(R.id.answer);
         answerText.setText("The answer was: " + answer);
+        Log.i("HHHHHHHHHHHHHHHHHHHHH", "" + chosen);
+        Log.i("TTTTTTTTTTTTTTTTTTTTT", "" + answer);
         if (chosen.equals(answer)) {
             correct++;
         }

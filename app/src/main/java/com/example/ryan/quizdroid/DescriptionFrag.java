@@ -38,7 +38,12 @@ public class DescriptionFrag extends Fragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View fragView = inflater.inflate(R.layout.activity_main_activity2, container, false);
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            topic = getArguments().getString("topic");
+            correct = getArguments().getInt("correct");
+        }
+        View fragView = inflater.inflate(R.layout.desc, container, false);
         TextView quesTotal = (TextView) fragView.findViewById(R.id.textView3);
         quesTotal.setText("There are 2 questions in this topic");
         String desc = descriptions.get(topic);
