@@ -46,10 +46,8 @@ public class ResultsFrag extends Fragment implements View.OnClickListener {
         guessed.setText("You chose: " + chosen);
         TextView answerText = (TextView) fragView.findViewById(R.id.answer);
         answerText.setText("The answer was: " + answer);
-        Log.i("HHHHHHHHHHHHHHHHHHHHH", "" + chosen);
-        Log.i("TTTTTTTTTTTTTTTTTTTTT", "" + answer);
         if (chosen.equals(answer)) {
-            correct++;
+            this.correct++;
         }
         attempted++;
         TextView title = (TextView) fragView.findViewById(R.id.score);
@@ -63,7 +61,7 @@ public class ResultsFrag extends Fragment implements View.OnClickListener {
 
     public void onClick(View v) {
         if (host instanceof MainActivity2Activity) {
-            ((MainActivity2Activity) host).loadFragment2();
+            ((MainActivity2Activity) host).loadFragment3();
         }
     }
 

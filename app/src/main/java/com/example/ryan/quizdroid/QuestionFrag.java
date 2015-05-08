@@ -23,15 +23,14 @@ public class QuestionFrag extends Fragment {
     public String topic;
     public int correct;
     public int attempted;
-    public String selected = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            topic = getArguments().getString("topic");
-            correct = getArguments().getInt("correct");
-            attempted = getArguments().getInt("attempted");
+            this.topic = getArguments().getString("topic");
+            this.correct = getArguments().getInt("correct");
+            this.attempted = getArguments().getInt("attempted");
         }
     }
 
@@ -81,20 +80,16 @@ public class QuestionFrag extends Fragment {
                         int radioId = radioGroup.indexOfChild(radioButton);
                         RadioButton btn = (RadioButton) radioGroup.getChildAt(radioId);
                         if (host instanceof MainActivity2Activity) {
+                            MainActivity2Activity ma2 = (MainActivity2Activity) host;
+                            ma2.selected = (String) btn.getText();
                             ((MainActivity2Activity) host).loadFragment4();
                         }
-                        MainActivity2Activity ma2 = (MainActivity2Activity) host;
-                        ma2.selected = (String) btn.getText();
                     }
                 }
-
             }
         };
-
         return voc;
     }
-
-
 
     @Override
     public void onAttach(Activity activity) {

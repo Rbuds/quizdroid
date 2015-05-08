@@ -19,7 +19,7 @@ public class MainActivity2Activity extends Activity {
     public int correct = 0;
     public Question[] questionQueue;
     public String selected;
-    public int attempted = 0;
+    public int attempted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +27,7 @@ public class MainActivity2Activity extends Activity {
         setContentView(R.layout.activity_main_activity2);
         Intent intent = getIntent();
         this.topic = intent.getStringExtra("topic");
+        this.attempted = 0;
         fill_queue(topic);
         fill_descriptions();
         if (savedInstanceState == null) {
@@ -65,44 +66,35 @@ public class MainActivity2Activity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void loadFragment2() {
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
+    public void loadFragment3() {
         if (attempted == 2) {
             Intent intent = new Intent(MainActivity2Activity.this, MainActivity.class);
             startActivity(intent);
         } else {
             Bundle extras = new Bundle();
-            extras.putInt("attempted", attempted);
             extras.putString("topic", topic);
             extras.putInt("correct", correct);
-            DescriptionFrag fragment2 = new DescriptionFrag();
-            fragment2.setArguments(extras);
-            ft.replace(R.id.container, fragment2);
+            extras.putInt("attempted", attempted);
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            QuestionFrag fragment3 = new QuestionFrag();
+            fragment3.setArguments(extras);
+            ft.replace(R.id.container, fragment3);   // where , what
+            ft.commit();
         }
-        ft.commit();
-    }
-
-    public void loadFragment3() {
-        Bundle extras = new Bundle();
-        extras.putString("topic", topic);
-        extras.putInt("correct", correct);
-        extras.putInt("attempted", attempted);
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        QuestionFrag fragment3 = new QuestionFrag();
-        fragment3.setArguments(extras);
-        ft.replace(R.id.container, fragment3);   // where , what
-        ft.commit();
     }
 
     public void loadFragment4() {
         Bundle extras = new Bundle();
+        if (selected.equals(questionQueue[attempted].answer)) {
+            extras.putInt("correct", correct++);
+        } else {
+            extras.putInt("correct", correct);
+        }
         extras.putString("chosen", selected);
         extras.putString("answer", questionQueue[attempted].answer);
-        extras.putInt("attempted", attempted);
+        extras.putInt("attempted", attempted++);
         extras.putString("topic", topic);
-        extras.putInt("correct", correct);
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ResultsFrag fragment4 = new ResultsFrag();
